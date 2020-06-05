@@ -1,0 +1,75 @@
+{
+  "_args": [
+    [
+      "github:kytek-hub/react-native-webview-bridge-updated",
+      "/Users/mac/Documents/pantographwallet"
+    ]
+  ],
+  "_from": "github:kytek-hub/react-native-webview-bridge-updated",
+  "_id": "react-native-webview-bridge-updated@github:kytek-hub/react-native-webview-bridge-updated#afdbbe436851978eb4eb3261a3e70942332ded33",
+  "_inBundle": false,
+  "_integrity": "",
+  "_location": "/react-native-webview-bridge-updated",
+  "_phantomChildren": {
+    "loose-envify": "1.4.0"
+  },
+  "_requested": {
+    "type": "git",
+    "raw": "github:kytek-hub/react-native-webview-bridge-updated",
+    "rawSpec": "github:kytek-hub/react-native-webview-bridge-updated",
+    "saveSpec": "github:kytek-hub/react-native-webview-bridge-updated",
+    "fetchSpec": null,
+    "gitCommittish": null
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "github:kytek-hub/react-native-webview-bridge-updated#afdbbe436851978eb4eb3261a3e70942332ded33",
+  "_spec": "github:kytek-hub/react-native-webview-bridge-updated",
+  "_where": "/Users/mac/Documents/pantographwallet",
+  "author": {
+    "name": "Ali Najafizadeh"
+  },
+  "bugs": {
+    "url": "https://github.com/wix/react-native-webview-bridge/issues"
+  },
+  "contributors": [
+    {
+      "name": "Daniel Zlotin",
+      "email": "zlotindaniel@gmail.com"
+    },
+    {
+      "name": "Yedidya Kennard",
+      "email": "yedidyak@gmail.com"
+    }
+  ],
+  "dependencies": {
+    "invariant": "2.2.0",
+    "keymirror": "0.1.1"
+  },
+  "description": "React Native WebView Javascript Bridge - updated",
+  "directories": {
+    "example": "examples",
+    "lib": "webview-bridge"
+  },
+  "homepage": "https://github.com/wix/react-native-webview-bridge",
+  "keywords": [
+    "react-native",
+    "react-component",
+    "ios",
+    "webview-bridge"
+  ],
+  "license": "MIT",
+  "main": "webview-bridge",
+  "name": "react-native-webview-bridge-updated",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/wix/react-native-webview-bridge.git"
+  },
+  "scripts": {
+    "build": ":",
+    "release": "npm version patch && npm publish && git push",
+    "test": ":"
+  },
+  "version": "1.0.9"
+}
