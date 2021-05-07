@@ -169,7 +169,7 @@ public class WebViewBridgeManager extends SimpleViewManager<WebViewBridgeManager
         webView.setWebViewClient(new ReactWebViewClient());
         webView.getSettings().setAllowFileAccessFromFileURLs(true);
         webView.getSettings().setAllowUniversalAccessFromFileURLs(true);
-
+        webView.getSettings().setDatabaseEnabled(true);
         webView.getSettings().setUserAgentString(
                 "Mozilla/5.0 (Linux; Android 4.1.1; Galaxy Nexus Build/JRO03C) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.166 Mobile Safari/535.19");
         webView.getSettings().setDomStorageEnabled(true);
@@ -398,12 +398,13 @@ public class WebViewBridgeManager extends SimpleViewManager<WebViewBridgeManager
         if (response.isRedirect()) {
             return false;
         }
-
+        
         // ...okhttp appends charset to content type sometimes, like "text/html;
         // charset=UTF8"
-        final String contentTypeAndCharset = response.header(HEADER_CONTENT_TYPE, MIME_UNKNOWN);
+        // final String contentTypeAndCharset = response.header(HEADER_CONTENT_TYPE, MIME_UNKNOWN);
         // ...and we only want to inject it in to HTML, really
-        return contentTypeAndCharset.startsWith(MIME_TEXT_HTML);
+        // return contentTypeAndCharset.startsWith(MIME_TEXT_HTML);
+        return true;
     }
 
     public static Boolean urlStringLooksInvalid(String urlString) {
@@ -424,14 +425,14 @@ public class WebViewBridgeManager extends SimpleViewManager<WebViewBridgeManager
         if (onlyMainFrame && !request.isForMainFrame()) {
             return null;
         }
-
-        if (urlStringLooksInvalid(urlStr)) {
-            return null;
-        }
+        Log.d("WebResourceRequest" , request.toString());
+         if (urlStringLooksInvalid(urlStr)) {
+             return null;
+         }
 
         try {
-            Request req = new Request.Builder().url(urlStr).header("User-Agent", "").build();
-
+            // Request req = new Request.Builder().url(urlStr).header("User-Agent", "").build();
+            Request req = new Request.Builder().url(urlStr).header("User-Agent", "").header("Access-Control-Allow-Origin", "*").header("Accept", "application/json").header("Content-Type", "application/x-www-form-urlencoded").build();
             OkHttpClient.Builder b = new OkHttpClient.Builder();
             OkHttpClient httpClient = b.followRedirects(false).followSslRedirects(false).build();
 
@@ -448,6 +449,8 @@ public class WebViewBridgeManager extends SimpleViewManager<WebViewBridgeManager
             if (response.code() == HttpURLConnection.HTTP_OK) {
                 is = new InputStreamWithInjectedJS(is, webView.injectedOnStartLoadingJS, charset);
             }
+            //  return new WebResourceResponse("text/plain", UTF_8.name(), is);
+            // return new WebResourceResponse("text/html", charset.name(), is);
             return new WebResourceResponse("text/html", charset.name(), is);
         } catch (IOException e) {
             return null;
@@ -517,20 +520,35 @@ public class WebViewBridgeManager extends SimpleViewManager<WebViewBridgeManager
 
         @Override
         public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
-            WebResourceResponse response = WebViewBridgeManager.this.shouldInterceptRequest(request, true,
-                    (ReactWebView) view);
-            if (response != null) {
-                Log.d("GOLDEN", "shouldInterceptRequest / WebViewClient -> return intercept response");
-                return response;
+            try {
+                Uri url = request.getUrl();
+                String urlStr = url.toString();
+                if (urlStr.contains("stbfep.sps-system.com")) {
+                    return super.shouldInterceptRequest(view, request);
+                } else {
+                    WebResourceResponse response = WebViewBridgeManager.this.shouldInterceptRequest(request, true,
+                            (ReactWebView) view);
+                    if (response != null) {
+                        Log.d("GOLDEN", "shouldInterceptRequest / WebViewClient -> return intercept response");
+                        return response;
+                    }
+                    return super.shouldInterceptRequest(view, request);
+                }
+            } catch (Exception e) {
+                return super.shouldInterceptRequest(view, request);
             }
-            return super.shouldInterceptRequest(view, request);
+
+
+
+
+
         }
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            if (WebViewBridgeManager.urlStringLooksInvalid(url)) {
-                return true;
-            }
+            // if (WebViewBridgeManager.urlStringLooksInvalid(url)) {
+            //     return true;
+            // }
             return false;
         }
 
