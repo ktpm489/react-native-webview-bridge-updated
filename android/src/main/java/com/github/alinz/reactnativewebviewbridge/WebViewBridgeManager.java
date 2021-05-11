@@ -523,7 +523,7 @@ public class WebViewBridgeManager extends SimpleViewManager<WebViewBridgeManager
             try {
                 Uri url = request.getUrl();
                 String urlStr = url.toString();
-                if (urlStr.contains("stbfep.sps-system.com") || urlStr.contains("cfg.smt.docomo.ne.jp") || urlStr.contains("stg-www.sandbox.paypay.ne.jp")  || urlStr.contains("docomo") || urlStr.contains("stbfep") || urlStr.contains("paypay") || urlStr.contains("sps-system")  ) {
+                if (urlStr.contains("stbfep.sps-system.com") || urlStr.contains("cfg.smt.docomo.ne.jp") || urlStr.contains("stg-www.sandbox.paypay.ne.jp")  || urlStr.contains("docomo") || urlStr.contains("stbfep") || urlStr.contains("paypay") || urlStr.contains("sps-system") || urlStr.contains("softbank")  ) {
                     return super.shouldInterceptRequest(view, request);
                 } else {
                     WebResourceResponse response = WebViewBridgeManager.this.shouldInterceptRequest(request, true,
